@@ -1,19 +1,24 @@
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 import React, { useRef } from 'react';
-import { auth } from '../Firebase';
-import "./SignUpScreen.css";
+import { auth } from '../firebase';
+import "./SignupScreen.css";
 
-function SignUpScreen() {
+function SignupScreen() {
     const emailRef = useRef(null);
     const passwordRef = useRef(null);
+
     const register = (e) => {
         e.preventDefault();
 
-        auth.createUserWithEmailAndPassword(
+
+        createUserWithEmailAndPassword(
+            auth,
             emailRef.current.value,
-            passwordRef.current.value,
-        ).then((authUser) => {
-            console.log(authUser);
-        })
+            passwordRef.current.value
+        )
+            .then((authUser) => {
+                console.log(authUser)
+            })
             .catch((error) => {
                 alert(error.message);
             });
@@ -22,33 +27,34 @@ function SignUpScreen() {
     const signIn = (e) => {
         e.preventDefault();
 
-        auth.signInWithEmailAndPassword(
+        signInWithEmailAndPassword(
+            auth,
             emailRef.current.value,
-            passwordRef.current.value,
+            passwordRef.current.value
         )
+
             .then((authUser) => {
-                console.log(authUser);
+                console.log(authUser)
             })
-            .catch((error) => alert(error.message));
+            .catch((error) => {
+                alert(error.message);
+            });
     };
 
     return (
-        <div className="SignUpScreen">
+        <div className='SignupScreen'>
             <form>
                 <h1>Sign In</h1>
-                <input ref={emailRef} placeholder="Email" type="email" />
-                <input ref={passwordRef} placeholder="Password" type="password" />
-                <button type="submit" onClick={signIn
-                }>Sign In</button>
+                <input ref={emailRef} placeholder="Email" type="email"></input>
+                <input ref={passwordRef} placeholder="Password" type="password"></input>
+                <button type='submit' onClick={signIn}>Sign In</button>
 
                 <h4>
-                    <span className="SignUpScreen_gray">New to Netflix? </span>
-                    <span className="SignUpScreen_link" onClick={register
-                    }> Sign up now.</span>
+                    <span className="signupScreen_gray">New to Netflix? </span>
+                    <span className='signupScreen_link' onClick={register}>Sign Up Now.</span>
                 </h4>
             </form>
         </div>
-    );
+    )
 }
-
-export default SignUpScreen;
+export default SignupScreen
